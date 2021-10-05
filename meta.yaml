@@ -1,0 +1,63 @@
+{% set name = "gromacs-dp" %}
+{% set version = "2020.2" %}
+
+package:
+  name: gromacs-dp
+  version: {{ version }}
+
+build:
+  number: 0
+
+source:
+  # path: /root/gromacs-2021.1-fep-pair-20210905
+  git_url: https://gitlab.com/gromacs/gromacs
+  git_rev: v2020.2
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - cmake
+    - make
+    - fftw * mpi_openmpi_*
+    - openmpi 4.1.1
+    - xdrfile
+    - cudatoolkit 10.1
+    - cudnn 7.6.5
+    - deepmd-kit >=2.0.2 *gpu
+    - libdeepmd >=2.0.2 *gpu
+    - libgcc-ng 7.3
+    - libstdcxx-ng 7.3
+  host:
+    - fftw * mpi_openmpi_*
+    - openmpi 4.1.1
+    - xdrfile
+    - libhwloc 
+    - libblas
+    - liblapack
+    - cudatoolkit 10.1
+    - cudnn 7.6.5
+    - deepmd-kit >=2.0.2 *gpu
+    - libdeepmd >=2.0.2 *gpu
+  run:
+    - cudatoolkit 10.1
+    - cudnn 7.6.5
+    - deepmd-kit >=2.0.2 *gpu
+    - libdeepmd >=2.0.2 *gpu
+    - openmpi
+
+test:
+  commands:
+    - dp -h
+    - gmx_mpi -version
+    - gmx_mpi mdrun -h
+    # -  cd /root/Hermite-fep-master/unittest && python test_gromacs.py && cd -
+
+about:
+  home: http://www.gromacs.org/
+  license: GNU Lesser General Public License (LGPL)
+  summary: GROMACS is a versatile package to perform molecular dynamics.
+
+extra:
+  recipe-maintainers:
+    - Ericwang6
