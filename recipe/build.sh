@@ -16,14 +16,10 @@ echo $CXXFLAGS
 # ln -s ${BUILD_PREFIX}/lib/libcufft.so.10.0    ${BUILD_PREFIX}/lib/libcufft.so.10 
 # ln -s ${PREFIX}/lib/libcufft.so.10.0    ${PREFIX}/lib/libcufft.so.10 
 
-# ${BUILD_PREFIX}/bin/plumed-patch -r -e gromacs-$PKG_VERSION
-# ${BUILD_PREFIX}/bin/plumed-patch -p --shared -e gromacs-$PKG_VERSION
-${BUILD_PREFIX}/bin/dp_gmx_patch -d .. -v 2020.2 -p
-# patch ${BUILD_PREFIX}/include/crt/host_config.h /cuda_allow_gcc9.diff
-# patch ${PREFIX}/include/crt/host_config.h /cuda_allow_gcc9.diff
+${BUILD_PREFIX}/bin/dp_gmx_patch -d . -v 2020.2 -p
 
-
-export LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib64/:${LD_LIBRARY_PATH}"
+# TODO: this is bad for CICD
+source /public/wangyingze/env/cuda-10.1.env
 
 mkdir build
 cd build
@@ -38,8 +34,8 @@ cmake .. \
   -DFFTWF_INCLUDE_DIR=${BUILD_PREFIX}/include \
   -DCMAKE_PREFIX_PATH=$PREFIX \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
-  -DCUDA_TOOLKIT_ROOT_DIR=${BUILD_PREFIX}
-make VERBOSE=1 -j ${CPU_COUNT}
+  # -DCUDA_TOOLKIT_ROOT_DIR=${BUILD_PREFIX}
+make -j
 make install
 
 ln -s ./gmx_mpi ${PREFIX}/bin/gmx

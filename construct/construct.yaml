@@ -1,0 +1,19 @@
+name: gromacs-dp
+version: 2020.2
+
+channels:
+  - file:///public/wangyingze/dp-conda-channel
+  - conda-forge
+  - deepmodeling
+  - nvidia
+  - defaults
+
+specs:
+  - fftw
+  - intel-openmp
+  - deepmd-kit >=2.0.2 *gpu
+  - libdeepmd >=2.0.2 *gpu
+  - python
+  - gromacs-dp
+
+ignore_duplicate_files: True

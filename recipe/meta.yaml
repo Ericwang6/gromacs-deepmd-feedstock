@@ -9,7 +9,6 @@ build:
   number: 0
 
 source:
-  # path: /root/gromacs-2021.1-fep-pair-20210905
   git_url: https://gitlab.com/gromacs/gromacs
   git_rev: v2020.2
 
@@ -19,39 +18,43 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - make
-    - fftw * mpi_openmpi_*
-    - openmpi 4.1.1
+    - fftw
+    - sysroot_linux-64 2.17
+    - intel-openmp
+    - mpich
     - xdrfile
     - cudatoolkit 10.1
-    - cudnn 7.6.5
+    - cudatoolkit-dev 10.1
+    - cudnn
     - deepmd-kit >=2.0.2 *gpu
     - libdeepmd >=2.0.2 *gpu
-    - libgcc-ng 7.3
-    - libstdcxx-ng 7.3
+    - protobuf 3.9.2
   host:
-    - fftw * mpi_openmpi_*
-    - openmpi 4.1.1
+    - fftw
+    - intel-openmp
+    - mpich
     - xdrfile
     - libhwloc 
     - libblas
     - liblapack
     - cudatoolkit 10.1
-    - cudnn 7.6.5
+    - cudnn
+    - protobuf 3.9.2
     - deepmd-kit >=2.0.2 *gpu
     - libdeepmd >=2.0.2 *gpu
   run:
     - cudatoolkit 10.1
-    - cudnn 7.6.5
+    - cudnn
     - deepmd-kit >=2.0.2 *gpu
     - libdeepmd >=2.0.2 *gpu
-    - openmpi
+    - intel-openmp
+    - mpich
 
 test:
   commands:
     - dp -h
     - gmx_mpi -version
     - gmx_mpi mdrun -h
-    # -  cd /root/Hermite-fep-master/unittest && python test_gromacs.py && cd -
 
 about:
   home: http://www.gromacs.org/
